@@ -10,6 +10,7 @@ MySQL에 유저-활동일 테이블(qau_user_days)을 만든 뒤 집계한다.
 - quarterly_series.parquet : 2016-Q1 ~ 2025-Q4 분기별 신규 가입자, QAU(창작 / 팀 합류만), 가입 코호트의 90일 활성화 인원
 - monthly_series.parquet   : 2020-01 ~ 2025-12 월별 신규 가입자, MAU(창작 / 팀 합류만)
 - qau_activity_gaps.parquet: 2023 ~ 2024 활동일마다 다음 활동일까지 간격 (일, 없으면 결측)
+- qau_by_tenure.parquet    : 2017-Q1 ~ 2025-Q4 분기 QAU를 가입 후 경과 기간(그 분기 첫 활동일 기준)으로 나눈 인원
 
 사용: python scripts/01_activity_series.py   (프로젝트 루트에서 실행, .env 필요, 약 10분)
 """
@@ -94,6 +95,22 @@ g as (select UserId, d, datediff(lead(d) over (partition by UserId order by d), 
 select UserId, d, gap from g where d between '2023-01-01' and '2024-12-31'
 """
 
+# 가입 연차: 그 분기 첫 활동일 - 가입일. Users에 없는 유저 ID(약 2.6%)는 조인에서 빠진다
+TENURE = f"""
+with act as (
+    select concat(year(d), '-Q', quarter(d)) as q, min(d) as qd, UserId
+    from qau_user_days where d >= '2017-01-01' and d < '{END}' group by q, UserId
+)
+select a.q,
+    sum(datediff(a.qd, u.RegisterDate) <= 90) as tenure_90d,
+    sum(datediff(a.qd, u.RegisterDate) between 91 and 365) as tenure_1y,
+    sum(datediff(a.qd, u.RegisterDate) between 366 and 1095) as tenure_1_3y,
+    sum(datediff(a.qd, u.RegisterDate) > 1095) as tenure_3y_plus,
+    count(*) as qau
+from act a join Users u on u.Id = a.UserId
+group by a.q order by a.q
+"""
+
 
 def main() -> None:
     t0 = time.time()
@@ -103,7 +120,8 @@ def main() -> None:
             conn.execute(text(sql))
             print(f"  {sql.split(chr(10))[0][:60]} ({time.time() - t0:.0f}초)", flush=True)
 
-    for name, query in [("quarterly_series", QUARTERLY), ("monthly_series", MONTHLY), ("qau_activity_gaps", GAPS)]:
+    for name, query in [("quarterly_series", QUARTERLY), ("monthly_series", MONTHLY), ("qau_activity_gaps", GAPS),
+                        ("qau_by_tenure", TENURE)]:
         df = pd.read_sql(text(query), engine)
         out = processed(name)
         df.to_parquet(out, index=False)

@@ -62,6 +62,7 @@ python scripts/01_activity_series.py
 | `quarterly_series.parquet` | 40 | 2016-Q1 ~ 2025-Q4 (분석은 2017-Q1부터) 신규 가입자, 90일 활성화 인원, QAU(창작 / 팀 합류만) |
 | `monthly_series.parquet` | 72 | 2020-01 ~ 2025-12 신규 가입자, MAU(창작 / 팀 합류만) |
 | `qau_activity_gaps.parquet` | 약 440만 | 2023 ~ 2024 활동일별 다음 활동까지 간격 |
+| `qau_by_tenure.parquet` | 36 | 2017-Q1 ~ 2025-Q4 QAU의 가입 연차별 인원 (90일 이내 / 1년 / 1~3년 / 3년 이상) |
 
 | 노트북 | 내용 |
 |---|---|
