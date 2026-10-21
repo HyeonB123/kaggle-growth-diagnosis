@@ -1,0 +1,21 @@
+# Python 3.11.5 (Anaconda) 기준으로 확인한 버전
+# numpy는 반드시 2.0 미만 (2.x에서 바이너리 충돌. ruptures 설치가 numpy를 올릴 수 있으니 설치 후 재확인)
+numpy==1.26.4
+pandas==1.5.3
+pyarrow==11.0.0
+sqlalchemy==1.4.39
+pymysql==1.4.6
+cryptography==41.0.3
+python-dotenv
+scipy==1.17.1
+statsmodels==0.14.5
+ruptures==1.1.10
+scikit-learn==1.5.0
+xgboost==3.0.2
+lightgbm==4.6.0
+catboost==1.2.8
+optuna==4.8.0
+shap==0.51.0
+matplotlib==3.7.2
+nbformat==5.9.2
+nbclient==0.5.13

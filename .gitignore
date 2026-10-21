@@ -1,0 +1,19 @@
+# 데이터: 용량이 크고 원본은 MySQL에 있음
+data/
+*.csv
+*.parquet
+
+# DB 접속 정보
+.env
+
+# 로컬 도구 설정
+.claude/
+.vscode/
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
