@@ -1,0 +1,7 @@
+# Streamlit Community Cloud 배포용 (대시보드만 실행). 분석 전체 환경은 루트 requirements.txt
+streamlit>=1.56
+plotly>=6.2
+pandas>=2.0
+numpy>=1.26
+scipy>=1.11
+statsmodels>=0.14.2

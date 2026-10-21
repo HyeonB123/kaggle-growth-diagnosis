@@ -3,7 +3,7 @@
 Meta Kaggle 공개 데이터로 **가입자는 빠르게 늘었는데 활성 유저(QAU)는 왜 그대로인가**를 진단하고,
 가입 14일 차 행동으로 90일 안에 핵심 창작 활동을 할 유저를 예측하는 모델(Early QAU Predictor)을 만든다.
 
-- 데이터: [Meta Kaggle](https://www.kaggle.com/datasets/kaggle/meta-kaggle) (31개 테이블 중 20개 사용, MySQL 적재, 2026-03-27까지)
+- 데이터: [Meta Kaggle](https://www.kaggle.com/datasets/kaggle/meta-kaggle) (31개 테이블 중 20개 사용, MySQL 적재, 2026-03-27까지). 원본 데이터는 레포에 없고, `dashboard/data/`에 집계값만 포함
 - 결정과 근거: [`docs/decisions.md`](docs/decisions.md)
 
 ## 문제 정의
@@ -39,7 +39,7 @@ Meta Kaggle 공개 데이터로 **가입자는 빠르게 늘었는데 활성 유
 
 ```
 ├── data/processed/       # Git 제외. MySQL에서 뽑은 분석용 파일
-├── src/metakaggle/       # 재사용 코드: 설정, DB 접속
+├── src/metakaggle/       # 재사용 코드: 설정, DB 접속, 차트 스타일(viz)
 ├── scripts/              # 순서대로 실행하는 단계
 ├── notebooks/            # 분석과 근거 (번호 순서대로 읽기)
 ├── dashboard/            # Streamlit 대시보드 (app.py) + 집계 데이터 (data/*.csv, Tableau 공용)
