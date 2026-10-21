@@ -2,6 +2,7 @@
 data/
 *.csv
 *.parquet
+!dashboard/data/*.csv
 
 # DB 접속 정보
 .env
@@ -9,6 +10,7 @@ data/
 # 로컬 도구 설정
 .claude/
 .vscode/
+.streamlit/secrets.toml
 
 # Python / Jupyter
 __pycache__/

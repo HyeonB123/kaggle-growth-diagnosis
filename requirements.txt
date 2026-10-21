@@ -19,3 +19,6 @@ shap==0.51.0
 matplotlib==3.7.2
 nbformat==5.9.2
 nbclient==0.5.13
+pm4py==2.7.22
+streamlit==1.56.0
+plotly==6.2.0

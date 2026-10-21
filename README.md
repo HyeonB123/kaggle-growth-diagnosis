@@ -42,7 +42,8 @@ Meta Kaggle 공개 데이터로 **가입자는 빠르게 늘었는데 활성 유
 ├── src/metakaggle/       # 재사용 코드: 설정, DB 접속
 ├── scripts/              # 순서대로 실행하는 단계
 ├── notebooks/            # 분석과 근거 (번호 순서대로 읽기)
-└── docs/                 # 결정 로그, A/B 테스트 설계서 요약, 그림
+├── dashboard/            # Streamlit 대시보드 (app.py) + 집계 데이터 (data/*.csv, Tableau 공용)
+└── docs/                 # 결정 로그, A/B 테스트 설계서 요약, Tableau 제작 가이드, 그림
 ```
 
 ## 실행 순서
@@ -65,6 +66,10 @@ python scripts/04_event_log.py
 
 # 5. 예측 모델: D+14 피처와 정답 (MySQL 테이블을 이미 만들었으면 --skip-build)
 python scripts/05_ml_dataset.py
+
+# 6. 대시보드 집계 데이터 (Streamlit·Tableau 공용) → 대시보드 실행
+python scripts/06_dashboard_data.py
+streamlit run dashboard/app.py
 ```
 
 | 저장 결과 (`data/processed/`) | 행 수 | 내용 |
@@ -95,4 +100,5 @@ python scripts/05_ml_dataset.py
 - [x] 프로세스 마이닝 — 입구가 대회 참가 → 가벼운 활동으로 이동, 가벼운 활동 → 참여 연결이 절반으로 약화
 - [x] 예측 모델 — 테스트 PR-AUC 0.128 (랜덤 대비 5.2배), 상위 10%가 전환자의 43%
 - [x] 가상 A/B 테스트 설계서 — 진행 중 대회 추천, 월 6,100명 대상 50:50, +30% 효과에 4개월 ([요약](docs/ab_test_design.md))
-- [ ] 대시보드
+- [x] 대시보드 (Streamlit) — 성장 현황, 신규 유입 퍼널, 예측 모델 모니터링, 실험 설계 4개 탭
+- [ ] 대시보드 (Tableau Public) — 같은 집계 데이터로 제작 ([가이드](docs/tableau_guide.md))
