@@ -53,8 +53,11 @@ Meta Kaggle 공개 데이터로 **가입자는 빠르게 늘었는데 활성 유
 pip install -r requirements.txt
 cp .env.example .env                  # DB 접속 정보 입력
 
-# 1. 활성 유저 시계열 (분기·월), 재활동 간격 저장
+# 1. 활성 유저 시계열 (분기·월), 재활동 간격, 가입 연차별 QAU 저장
 python scripts/01_activity_series.py
+
+# 2. 가설1: 두 시기 가입자 전원의 첫 활동 시점, 대회 목록 저장
+python scripts/02_h1_cohort.py
 ```
 
 | 저장 결과 (`data/processed/`) | 행 수 | 내용 |
@@ -62,15 +65,18 @@ python scripts/01_activity_series.py
 | `quarterly_series.parquet` | 40 | 2016-Q1 ~ 2025-Q4 (분석은 2017-Q1부터) 신규 가입자, 90일 활성화 인원, QAU(창작 / 팀 합류만) |
 | `monthly_series.parquet` | 72 | 2020-01 ~ 2025-12 신규 가입자, MAU(창작 / 팀 합류만) |
 | `qau_activity_gaps.parquet` | 약 440만 | 2023 ~ 2024 활동일별 다음 활동까지 간격 |
+| `h1_cohort.parquet` | 7,985,565 | 두 시기 가입자의 첫 QAU·창작·팀 합류·가벼운 활동까지 일수, 국가 |
+| `h1_competitions.parquet` | 2,995 | 두 시기에 열린 대회 (구분, 상금, 참가 팀 수) |
 | `qau_by_tenure.parquet` | 36 | 2017-Q1 ~ 2025-Q4 QAU의 가입 연차별 인원 (90일 이내 / 1년 / 1~3년 / 3년 이상) |
 
 | 노트북 | 내용 |
 |---|---|
 | `01_problem_definition.ipynb` | QAU 정의, 정체의 통계적 판정(TOST), 집계 단위 근거, 코호트 선정, 가설 |
+| `02_h1_acquisition.ipynb` | 가설1: 90일 활성화율 판정, 보조 지표, 견고성, 대안 설명 검증 |
 
 ## 진행 상황
 - [x] 문제 정의 (QAU 정의, 정체 판정, 코호트, 가설 판정 기준)
-- [ ] 가설1 검증
+- [x] 가설1 검증 — 지지 (90일 활성화율 12.71% → 3.61%, 대회 참가 −75%)
 - [ ] 가설2 검증 (분모의 함정)
 - [ ] 예측 모델 (열린 이슈 반영: D+14 시점 팀 크기, 시기별 성능)
 - [ ] 대시보드, 가상 A/B 테스트 설계서
